@@ -2,7 +2,6 @@ package com.example.demojpa;
 
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.Optional;
@@ -15,7 +14,6 @@ public class BikeRepository {
         this.entityManager = entityManager;
     }
 
-    @Transactional
     public void save(Bike bike) {
         entityManager.persist(bike);
     }
@@ -24,12 +22,11 @@ public class BikeRepository {
         return Optional.ofNullable(entityManager.find(Bike.class, id));
     }
 
-    @Transactional
     public void deleteById(Long id) {
         findById(id).ifPresent(entityManager::remove);
-
 //        Bike bike = entityManager.find(Bike.class, id);
 //        if (bike != null)
 //            entityManager.remove(bike);
     }
+
 }

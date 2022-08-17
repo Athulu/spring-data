@@ -12,23 +12,13 @@ public class DemoJpaApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(DemoJpaApplication.class, args);
-        Bike bike1 = new Bike(1L, "Kross Esker 4.0, 29 cali męski", "KRS12345", 30, 100);
-        BikeRepository bikeRepository = context.getBean(BikeRepository.class);
-        bikeRepository.save(bike1);
-        System.out.println("Zapisano w bazie bike1");
+        NewBikeDto bike1 = new NewBikeDto(1L, "Kross Esker 4.0, 29 cali męski", "KRS12345", 30, 100);
+        BikeService bikeService = context.getBean(BikeService.class);
 
-        Bike bike2 = new Bike(2L, "Pies", "SSS1111", 50, 150);
-        bikeRepository.save(bike2);
-        System.out.println("Zapisano w bazie bike2");
-
-        System.out.println("Pobieranie i wyświetlanie bike2:");
-        bikeRepository.findById(2L).ifPresent(System.out::println);
-
-        System.out.println("Usuwanie bike1:");
-        bikeRepository.deleteById(1L);
-
-        System.out.println("Pobieram i wyświetlam bike1:");
-        bikeRepository.findById(1L).ifPresentOrElse(System.out::println, () -> System.out.println("Brak roweru o id 1"));
+        bikeService.add(bike1);
+        double payment = bikeService.rentForHour(1L, 5, "ABC123");
+        System.out.println("Należność do zapłaty: " + payment);
+        bikeService.returnBike(1L);
 
     }
 
